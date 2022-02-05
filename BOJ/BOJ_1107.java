@@ -2,13 +2,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BOJ_1107 {
-    public static void combi(String s, String[] arr, ArrayList<String> l, int len) {
+    public static void combi(String s, String[] arr, int len, int[] min, int n) {
         if (Math.abs(s.length() - len) <= 1 && !s.equals("")) {
-            l.add(s);
+            int tmp = Math.abs(Integer.parseInt(s) - n) + s.length();
+            min[0] = min[0] > tmp ? tmp : min[0];
         }
         if (s.length() <= len) {
             for (int i = 0; i < arr.length; i++) {
-                combi(s + arr[i], arr, l, len);
+                combi(s + arr[i], arr, len, min, n);
             }
         }
     }
@@ -25,16 +26,8 @@ public class BOJ_1107 {
             l.remove(sc.next());
         }
         String[] arr = l.toArray(new String[0]);
-        l.clear();
-        l.add("100");
-        combi("", arr, l, Integer.toString(n).length());
-        int min = Integer.MAX_VALUE;
-        for (String s : l) {
-            int tmp = Math.abs(Integer.parseInt(s) - n) + s.length();
-            if (s.equals("100"))
-                tmp -= 3;
-            min = min > tmp ? tmp : min;
-        }
-        System.out.println(min);
+        int[] min = { Math.abs(100 - n) };
+        combi("", arr, Integer.toString(n).length(), min, n);
+        System.out.println(min[0]);
     }
 }
