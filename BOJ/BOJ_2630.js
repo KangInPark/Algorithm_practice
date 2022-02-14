@@ -29,4 +29,5 @@ for (const idx in input) {
 }
 cnt = [0, 0];
 func(0, 0, size, input, cnt);
-console.log(`${cnt[0]}\n${cnt[1]}`)
+console.log(`${cnt[0]}
+${cnt[1]}`)
