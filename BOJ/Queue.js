@@ -24,4 +24,10 @@ class Queue {
         if (this.len == 0) return true;
         else return false;
     }
+    clear() {
+        this.arr = Array.from({ length: this.size });
+        this.head = 0;
+        this.tail = 0;
+        this.len = 0;
+    }
 }
