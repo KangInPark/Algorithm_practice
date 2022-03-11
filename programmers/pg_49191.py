@@ -1,31 +1,47 @@
-def dfs(adj, memo, curr, chk):
-    if(memo[curr] != -1):
-        chk[0] = chk[0] | memo[curr]
-        return
-    for next in adj[curr]:
-        if(chk[0] & 1 << next == 0):
-            chk[0] = chk[0] | (1 << next)
-            dfs(adj, memo, next, chk)
+class Node:
+    def __init__(self, name):
+        self.name = name
+        self.profit = 0
+        self.parent = None
+        self.children = []
 
 
-def solution(n, results):
-    adj = [[] for _ in range(n+1)]
-    radj = [[] for _ in range(n+1)]
-    for x, y in results:
-        adj[y].append(x)
-        radj[x].append(y)
-    memo = [-1] * (n+1)
-    rmemo = [-1] * (n+1)
-    answer = 0
-    chk = [0]
-    for i in range(1, n+1):
-        chk[0] = 1 << i
-        dfs(adj, memo, i, chk)
-        memo[i] = chk[0]
-        chk[0] = 1 << i
-        dfs(radj, rmemo, i, chk)
-        rmemo[i] = chk[0]
-    for idx in range(1, n+1):
-        if bin(memo[idx] | rmemo[idx]).count('1') == n:
-            answer += 1
+class Tree:
+    def __init__(self):
+        self.dic = {}
+        self.center = Node("-")
+        self.dic["-"] = self.center
+
+    def add(self, name, refer):
+        node = Node(name)
+        node.parent = self.dic[refer]
+        node.parent.children.append(node)
+        self.dic[name] = node
+
+    def sell(self, name, amount):
+        curr = self.dic[name]
+        val = amount*100
+        while curr.name != "-":
+            if val * 0.1 < 1:
+                curr.profit += val
+                break
+            else:
+                curr.profit += val - int(val*0.1)
+                val = int(val * 0.1)
+                curr = curr.parent
+
+    def print(self, enroll):
+        ret = []
+        for name in enroll:
+            ret.append(self.dic[name].profit)
+        return ret
+
+
+def solution(enroll, referral, seller, amount):
+    tree = Tree()
+    for idx in range(len(enroll)):
+        tree.add(enroll[idx], referral[idx])
+    for idx in range(len(seller)):
+        tree.sell(seller[idx], amount[idx])
+    answer = tree.print(enroll)
     return answer
