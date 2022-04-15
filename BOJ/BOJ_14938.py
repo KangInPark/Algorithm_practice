@@ -17,11 +17,11 @@ for k in range(1, n + 1):
                 continue
             if adj[i][k] + adj[k][j] < adj[i][j]:
                 adj[i][j] = adj[i][k] + adj[k][j]
-mval = -1
+ret = -1
 for i in range(1, n + 1):
     add = 0
     for j in range(1, n + 1):
         if adj[i][j] <= m:
             add += data[j - 1]
-    mval = max(mval, add)
-print(mval)
+    ret = max(ret, add)
+print(ret)
