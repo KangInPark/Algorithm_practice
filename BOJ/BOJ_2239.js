@@ -25,9 +25,7 @@ function func(arr, end, chk) {
 			}
 		}
 	}
-	arr.map((x) => {
-		console.log(x.join(""));
-	});
+	arr.forEach((x) => console.log(x.join("")));
 	end[0] = false;
 	return;
 }
